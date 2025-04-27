@@ -1,0 +1,15 @@
+﻿campaign,age_group,conversion
+A,Young,Yes
+B,Middle,No
+C,Senior,No
+A,Young,Yes
+B,Middle,Yes
+C,Senior,No
+A,Middle,Yes
+B,Young,No
+C,Middle,No
+A,Senior,Yes
+B,Young,Yes
+C,Middle,No
+A,Young,Yes
+B,Middle,No
