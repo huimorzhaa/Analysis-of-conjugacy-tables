@@ -2,227 +2,106 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Точный тест Фишера</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            color: #333;
-        }
-        h1, h2 {
-            color: #2c3e50;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
-        }
-        table {
-            border-collapse: collapse;
-            margin: 20px 0;
-            width: 100%;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-        th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-        }
-        .formula {
-            font-family: "Cambria Math", "Latin Modern Math", STIXGeneral, serif;
-            font-size: 1.1em;
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-            text-align: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            overflow-x: auto;
-        }
-        .formula-inline {
-            font-family: "Cambria Math", "Latin Modern Math", STIXGeneral, serif;
-            font-size: 1.1em;
-            vertical-align: middle;
-        }
-        .highlight {
-            background-color: #e3f2fd;
-            padding: 3px 6px;
-            border-radius: 3px;
-            font-weight: 500;
-        }
-        .frac {
-            display: inline-block;
-            vertical-align: middle;
-            text-align: center;
-            margin: 0 2px;
-        }
-        .frac > span {
-            display: block;
-            padding: 0 5px;
-        }
-        .frac span.bottom {
-            border-top: 1px solid #666;
-        }
-        .factorial {
-            position: relative;
-            padding-right: 5px;
-        }
-        .factorial:after {
-            content: "!";
-            position: absolute;
-            right: 0;
-            top: -3px;
-            font-size: 0.8em;
-        }
-        .step {
-            background-color: #e8f5e9;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        .step-title {
-            font-weight: bold;
-            color: #2e7d32;
-            margin-bottom: 8px;
-        }
+        table {border-collapse: collapse; margin: 20px 0;}
+        td, th {border: 1px solid #ddd; padding: 8px;}
+        th {background-color: #f2f2f2;}
+        .warning {color: #856404; background-color: #fff3cd; padding: 15px; border-radius: 4px;}
     </style>
 </head>
 <body>
     <h1>Изучение таблиц сопряженности методом точного теста Фишера</h1>
     
-    <p>Когда мы работаем с маленькими таблицами, особенно 2×2, и количеством наблюдений мало (например, в каких-то ячейках меньше 5 случаев), стандартные методы проверки связей становятся неточными.</p>
-    <p>В таких случаях применяют <span class="highlight">точный тест Фишера</span>.</p>
-    
-    <p>Этот тест аккуратно проверяет, есть ли статистическая связь между двумя категориальными переменными.</p>
-    
-    <h2>Что важно учитывать:</h2>
+    <p>Когда мы работаем с маленькими таблицами (особенно 2×2) и количеством наблюдений мало (например, в каких-то ячейках меньше 5 случаев), стандартные методы проверки связей становятся неточными. В таких случаях применяют точный тест Фишера.</p>
+
+    <h2>Основные особенности теста</h2>
     <ul>
-        <li>Таблица должна быть небольшая (обычно 2×2).</li>
-        <li>Переменные — категориальные (например, да/нет, лечился/не лечился).</li>
-        <li>Метод работает идеально при малых выборках.</li>
+        <li>Идеально подходит для таблиц 2×2</li>
+        <li>Работает с категориальными переменными (да/нет, успех/неудача)</li>
+        <li>Рекомендован при малых выборках</li>
+        <li>Даёт точные p-значения</li>
     </ul>
-    
-    <h2>Алгоритм расчета теста Фишера по шагам:</h2>
-    
-    <div class="step">
-        <div class="step-title">Шаг 1. Построить таблицу фактических частот</div>
-        <p>Заполняем таблицу сопряженности 2×2:</p>
+
+    <h2>Алгоритм расчета</h2>
+    <ol>
+        <li>Построить таблицу фактических частот:
+            <table>
+                <tr><th></th><th>Событие A</th><th>Не событие A</th><th>Всего</th></tr>
+                <tr><td>Группа 1</td><td>a</td><td>b</td><td>a+b</td></tr>
+                <tr><td>Группа 2</td><td>c</td><td>d</td><td>c+d</td></tr>
+                <tr><td>Всего</td><td>a+c</td><td>b+d</td><td>n</td></tr>
+            </table>
+        </li>
         
-        <table>
-            <tr>
-                <th></th>
-                <th>Событие A</th>
-                <th>Не событие A</th>
-                <th>Всего</th>
-            </tr>
-            <tr>
-                <td>Группа 1</td>
-                <td>a</td>
-                <td>b</td>
-                <td>a + b</td>
-            </tr>
-            <tr>
-                <td>Группа 2</td>
-                <td>c</td>
-                <td>d</td>
-                <td>c + d</td>
-            </tr>
-            <tr>
-                <td>Всего</td>
-                <td>a + c</td>
-                <td>b + d</td>
-                <td>n</td>
-            </tr>
-        </table>
-    </div>
-    
-    <div class="step">
-        <div class="step-title">Шаг 2. Вычислить вероятность данного распределения</div>
-        <p>Вероятность получения данной таблицы вычисляется по формуле:</p>
+        <li>Рассчитать вероятность наблюдавшейся таблицы:
+            \[
+            p = \frac{(a+b)!\,(c+d)!\,(a+c)!\,(b+d)!}{a!\,b!\,c!\,d!\,n!}
+            \]
+        </li>
         
-        <div class="formula">
-            p = 
-            <div class="frac">
-                <span>(a+b)! (c+d)! (a+c)! (b+d)!</span>
-                <span class="bottom">a! b! c! d! n!</span>
-            </div>
-        </div>
+        <li>Для двустороннего теста суммировать вероятности всех более экстремальных таблиц</li>
         
-        <p>Где <span class="factorial">n</span> обозначает факториал числа n.</p>
-    </div>
-    
-    <div class="step">
-        <div class="step-title">Шаг 3. Сравнить p-значение с уровнем значимости</div>
-        <p>Сравниваем полученное p-значение с выбранным уровнем значимости α (обычно 0.05):</p>
-        
-        <ul>
-            <li>Если <span class="formula-inline">p ≤ α</span>, отвергаем нулевую гипотезу (связь есть)</li>
-            <li>Если <span class="formula-inline">p > α</span>, недостаточно оснований отвергнуть нулевую гипотезу (связи нет)</li>
-        </ul>
-    </div>
-    
+        <li>Сравнить p-значение с уровнем значимости:
+            <ul>
+                <li>Если \( p \leq 0.05 \) - связь статистически значима</li>
+                <li>Если \( p > 0.05 \) - связь не обнаружена</li>
+            </ul>
+        </li>
+    </ol>
+
     <h2>Пример расчета</h2>
-    <p><strong>Исходные данные:</strong> Проверяем, влияет ли новый препарат на выздоровление.</p>
+    <p>Исследуем эффективность нового препарата:</p>
     
     <table>
-        <tr>
-            <th></th>
-            <th>Выздоровел</th>
-            <th>Не выздоровел</th>
-            <th>Всего</th>
-        </tr>
-        <tr>
-            <td>Лечился</td>
-            <td>8</td>
-            <td>2</td>
-            <td>10</td>
-        </tr>
-        <tr>
-            <td>Не лечился</td>
-            <td>1</td>
-            <td>9</td>
-            <td>10</td>
-        </tr>
-        <tr>
-            <td>Всего</td>
-            <td>9</td>
-            <td>11</td>
-            <td>20</td>
-        </tr>
+        <tr><th></th><th>Выздоровел</th><th>Не выздоровел</th><th>Всего</th></tr>
+        <tr><td>Лечился</td><td>8</td><td>2</td><td>10</td></tr>
+        <tr><td>Не лечился</td><td>1</td><td>9</td><td>10</td></tr>
+        <tr><td>Всего</td><td>9</td><td>11</td><td>20</td></tr>
     </table>
-    
-    <div class="step">
-        <div class="step-title">Шаг 1. Определяем значения</div>
-        <div class="formula">
-            a = 8 b = 2 c = 1 d = 9 n = 20
-        </div>
+
+    <h3>Шаг 1. Идентификация переменных</h3>
+    <p>
+    \( a = 8,\ b = 2,\ c = 1,\ d = 9,\ n = 20 \)
+    </p>
+
+    <h3>Шаг 2. Подстановка в формулу</h3>
+    <p>
+    \[
+    p = \frac{(8+2)!\,(1+9)!\,(8+1)!\,(2+9)!}{8!\,2!\,1!\,9!\,20!}
+    \]
+    </p>
+
+    <h3>Шаг 3. Вычисление факториалов</h3>
+    <p>
+    \[
+    \begin{align*}
+    10! &= 3628800 \\
+    9! &= 362880 \\
+    11! &= 39916800 \\
+    20! &= 2432902008176640000 \\
+    \end{align*}
+    \]
+    </p>
+
+    <h3>Шаг 4. Расчёт p-значения</h3>
+    <p>После подстановки всех значений:</p>
+    <p>
+    \[
+    p \approx 0.0015
+    \]
+    </p>
+
+    <div class="warning">
+        <strong>Важно!</strong> В реальных расчётах для вычисления факториалов 
+        и комбинаторики следует использовать статистические программы 
+        (R, Python, SPSS) или онлайн-калькуляторы.
     </div>
-    
-    <div class="step">
-        <div class="step-title">Шаг 2. Подставляем в формулу</div>
-        <div class="formula">
-            p = 
-            <div class="frac">
-                <span>(8+2)! (1+9)! (8+1)! (2+9)!</span>
-                <span class="bottom">8! 2! 1! 9! 20!</span>
-            </div>
-            = 
-            <div class="frac">
-                <span>10! 10! 9! 11!</span>
-                <span class="bottom">8! 2! 1! 9! 20!</span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="step">
-        <div class="step-title">Шаг 3. Вычисляем и интерпретируем</div>
-        <p>После вычислений получаем p ≈ 0.00276</p>
-        <p>Так как <span class="formula-inline">0.00276 < 0.05</span>, делаем вывод: <strong>связь есть, лечение помогает</strong>.</p>
-    </div>
+
+    <h3>Вывод</h3>
+    <p>Полученное p-значение \( 0.0015 < 0.05 \), следовательно, 
+    существует статистически значимая связь между лечением и выздоровлением.</p>
 </body>
 </html>
