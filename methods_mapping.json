@@ -1,0 +1,9 @@
+{
+    "chi_square": "Хи-квадрат Пирсона",
+    "fisher_exact": "Точный тест Фишера",
+    "cramers_v": "Коэффициент Крамера V",
+    "contingency_coefficient": "Коэффициент сопряженности",
+    "phi_coefficient": "Коэффициент Фи",
+    "odds_ratio": "Отношение шансов",
+    "goodman_kruskal_tau": "Тау Гудмана-Краскела"
+}
