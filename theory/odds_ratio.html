@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Отношение шансов (Odds Ratio)</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        table {border-collapse: collapse; margin: 20px 0;}
+        td, th {border: 1px solid #ddd; padding: 8px;}
+        th {background-color: #f2f2f2;}
+        .interpretation {background-color: #e9f5ff; padding: 15px; border-radius: 4px;}
+        .warning {background-color: #fff3cd; padding: 15px; border-radius: 4px;}
+    </style>
+</head>
+<body>
+    <h1>Отношение шансов (Odds Ratio)</h1>
+    
+    <p>Odds Ratio (OR) - показатель силы связи между двумя бинарными переменными. Используется преимущественно в таблицах 2×2 для сравнения вероятности событий в разных группах.</p>
+
+    <h2>Основные особенности</h2>
+    <ul>
+        <li>Применим только для таблиц 2×2</li>
+        <li>Показывает относительную вероятность событий</li>
+        <li>Не требует нормального распределения данных</li>
+        <li>Широко используется в медицинских исследованиях</li>
+    </ul>
+
+    <h2>Формула расчета</h2>
+    <p>
+    \[
+    OR = \frac{a \cdot d}{b \cdot c} = \frac{\text{Шансы в группе 1}}{\text{Шансы в группе 2}}
+    \]
+    </p>
+    <p>Структура таблицы 2×2:
+    <table>
+        <tr><th></th><th>Событие+</th><th>Событие-</th><th>Всего</th></tr>
+        <tr><td>Группа 1</td><td>a</td><td>b</td><td>a+b</td></tr>
+        <tr><td>Группа 2</td><td>c</td><td>d</td><td>c+d</td></tr>
+        <tr><td>Всего</td><td>a+c</td><td>b+d</td><td>n</td></tr>
+    </table>
+    </p>
+
+    <div class="interpretation">
+        <h3>Интерпретация:</h3>
+        <ul>
+            <li>OR = 1: Нет различий между группами</li>
+            <li>OR > 1: Событие более вероятно в группе 1</li>
+            <li>OR < 1: Событие более вероятно в группе 2</li>
+        </ul>
+    </div>
+
+    <h2>Пример расчета</h2>
+    <p>Исследование связи курения с заболеваемостью:</p>
+    <table>
+        <tr><th></th><th>Болеют</th><th>Здоровы</th><th>Всего</th></tr>
+        <tr><td>Курят</td><td>30</td><td>70</td><td>100</td></tr>
+        <tr><td>Не курят</td><td>10</td><td>90</td><td>100</td></tr>
+        <tr><td>Всего</td><td>40</td><td>160</td><td>200</td></tr>
+    </table>
+
+    <h3>Шаг 1. Идентификация переменных</h3>
+    <p>
+    \( a = 30,\ b = 70,\ c = 10,\ d = 90 \)
+    </p>
+
+    <h3>Шаг 2. Подстановка в формулу</h3>
+    <p>
+    \[
+    OR = \frac{30 \cdot 90}{70 \cdot 10} = \frac{2700}{700} \approx 3.86
+    \]
+    </p>
+
+    <h3>Шаг 3. Интерпретация</h3>
+    <p>OR = 3.86 означает, что у курящих шанс заболеть в 3.86 раза выше, чем у некурящих.</p>
+
+    <div class="warning">
+        <h3>Важные замечания</h3>
+        <ul>
+            <li>OR ≠ Relative Risk (Относительный риск)</li>
+            <li>OR показывает ассоциацию, но не причинно-следственную связь</li>
+            <li>Для малых выборок используйте поправку Йейтса</li>
+            <li>Всегда указывайте доверительный интервал</li>
+        </ul>
+    </div>
+
+    <h2>Сравнение с другими показателями</h2>
+    <table>
+        <tr><th>Показатель</th><th>Формула</th><th>Применение</th></tr>
+        <tr><td>Относительный риск</td><td>\(\frac{a/(a+b)}{c/(c+d)}\)</td><td>Когда важна абсолютная вероятность</td></tr>
+        <tr><td>Разность рисков</td><td>\(\frac{a}{a+b} - \frac{c}{c+d}\)</td><td>Для оценки абсолютного эффекта</td></tr>
+        <tr><td>Рисковое отношение</td><td>\(\frac{a/(a+b)}{c/(c+d)}\)</td><td>Альтернатива OR для частых событий</td></tr>
+    </table>
+
+    <h2>Ограничения метода</h2>
+    <ul>
+        <li>Не интерпретируется при нулевых значениях в ячейках</li>
+        <li>Может вводить в заблуждение при редких событиях</li>
+        <li>Требует осторожной интерпретации при OR ≈ 1</li>
+        <li>Чувствителен к размеру выборки</li>
+    </ul>
+</body>
+</html>
